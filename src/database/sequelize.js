@@ -5,8 +5,16 @@ const env = process.env.NODE_ENV || 'development';
 const dbConfig = config[env];
 
 let sequelize;
-if (dbConfig.use_env_variable) {
-  sequelize = new Sequelize(process.env[dbConfig.use_env_variable], dbConfig);
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
+  });
 } else {
   sequelize = new Sequelize(
     dbConfig.database,
