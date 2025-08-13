@@ -3,7 +3,7 @@ const UserService = require('../services/UserService');
 class UserController {
   static async index(req, res) {
     try {
-      const users = await UserService.getAllUsers();
+      const users = await UserService.getAllUsers(req.query.activate);
       return res.json(users);
     } catch (error) {
       console.error('Erro no controller ao buscar usuários:', error);

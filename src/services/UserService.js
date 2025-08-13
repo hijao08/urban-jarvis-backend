@@ -1,11 +1,23 @@
 const User = require('../database/models/user');
 
 class UserService {
-  static async getAllUsers() {
+  static async getAllUsers(activate) {
     try {
+      if (activate === 'false' || activate === false) {
       return await User.findAll({
-        attributes: { exclude: ['password'] }
+        attributes: { exclude:['password'] },
+        where: { activate: false }
       });
+      } else if (activate === 'all' || activate === 'All') {
+        return await User.findAll({
+          attributes: { exclude:['password'] }
+        });
+      } else {
+        return await User.findAll({
+          attributes: { exclude:['password'] },
+          where: { activate: true }
+        });
+      }
     } catch (error) {
       console.error('Erro no service ao buscar usuários:', error);
       throw error;
