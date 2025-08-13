@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { sequelize } = require('./database/sequelize');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -17,6 +18,9 @@ sequelize.authenticate()
 app.get('/', (req, res) => {
   res.json({ message: 'API funcionando!' });
 });
+
+// Rotas de usuário
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
