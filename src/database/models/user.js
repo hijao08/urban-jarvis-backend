@@ -29,6 +29,11 @@ User.init({
   updatedAt: {
     type: DataTypes.DATE,
     allowNull: false
+  },
+  activate: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   }
 }, {
   sequelize,

@@ -37,6 +37,42 @@ class UserService {
       throw error;
     }
   }
+
+  static async updateUser(id, { name, email, password }) {
+    try {
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error('Usuário não encontrado');
+      }
+
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.password = password || user.password;
+
+      await user.save();
+
+      return user.toJSON();
+    } catch (error) {
+      console.error('Erro no service ao atualizar usuário:', error);
+      throw error;
+    }
+  }
+
+  static async deleteUser(id) {
+    try {
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error('Usuário não encontrado');
+      }
+
+      await user.update({ activate: false });
+
+      return true;
+    } catch (error) {
+      console.error('Erro no service ao deletar usuário:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = UserService;

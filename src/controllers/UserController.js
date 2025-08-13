@@ -31,6 +31,29 @@ class UserController {
       return res.status(500).json({ error: 'Erro interno do servidor' });
     }
   }
+
+  static async update(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, email, password } = req.body;
+
+      const user = await UserService.updateUser(id, { name, email, password });
+      return res.json(user);
+    } catch (error) {
+      console.error('Erro no controller ao atualizar usuário:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  }
+
+  static async delete(req, res) {
+    try {
+      const { id } = req.params;
+      await UserService.deleteUser(id);
+      return res.status(204).send();
+    } catch (error) {
+      console.error('Erro no controller ao deletar usuário:', error);
+    }
+  }
 }
 
 module.exports = UserController;
