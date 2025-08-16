@@ -5,16 +5,12 @@ class UserService {
     try {
       if (activate === 'false' || activate === false) {
       return await User.findAll({
-        attributes: { exclude:['password'] },
         where: { activate: false }
       });
       } else if (activate === 'all' || activate === 'All') {
-        return await User.findAll({
-          attributes: { exclude:['password'] }
-        });
+        return await User.findAll();
       } else {
         return await User.findAll({
-          attributes: { exclude:['password'] },
           where: { activate: true }
         });
       }
